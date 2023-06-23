@@ -10,7 +10,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
-import controlador.ControladorCargaSecc;
+import controlador.ControladorCargaCombo;
 
 public class MarcoAplicacion extends JFrame {
 
@@ -41,7 +41,7 @@ public class MarcoAplicacion extends JFrame {
 		add(menu, BorderLayout.NORTH);
 		add(texto, BorderLayout.CENTER);
 		add(buscar, BorderLayout.SOUTH);
-		addWindowListener(new ControladorCargaSecc(this));
+		addWindowListener(new ControladorCargaCombo(this));
 	}
 
 }

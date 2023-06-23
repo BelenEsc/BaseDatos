@@ -5,12 +5,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import controlador.Conexion;
-
 public class CargarCombos {
 
 	Conexion conex1;
 	public ResultSet rs;
+	public ResultSet rs2;
 
 	public CargarCombos() {
 		conex1 = new Conexion();
@@ -20,22 +19,28 @@ public class CargarCombos {
 	public String ejecutaConsultas() {
 		Productos miProducto = null;
 		Connection accesoBD = conex1.dameConexion();
-		String nombre = null;
 		try {
 			Statement statement = accesoBD.createStatement();
 			rs = statement.executeQuery("SELECT DISTINCTROW seccion FROM productos");
-			while (rs.next()) {
-				nombre = rs.getString(1);
-				miProducto = new Productos();
-				miProducto.setSeccion(nombre);
-				return miProducto.getSeccion();
-			}
+			miProducto = new Productos();
+			
+			miProducto.setSeccion(rs.getString(1));
 			rs.close();
-		} catch (SQLException e) {
+
+			/////////////////////////////////////
+			
+			statement = accesoBD.createStatement();
+			rs2 = statement.executeQuery("SELECT DISTINCTROW paisedeorigen FROM productos");
+			miProducto = new Productos();
+			
+			miProducto.setPaisOrigen(rs2.getString(1));
+			rs2.close();
+		} 
+		
+		catch (Exception e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 		return miProducto.getSeccion();
-	} 
+	}
 
 }
