@@ -11,9 +11,9 @@ public class ConsultaPreparada {
 
 		try {
 			Connection miConexion = DriverManager.getConnection("jdbc:mysql://sql7.freemysqlhosting.net:3306/sql7623827", "sql7623827", "akYVms4umE");
-			PreparedStatement codigomysql = miConexion.prepareStatement("SELECT * FROM tabla WHERE edad =?");
+			PreparedStatement codigomysql = miConexion.prepareStatement("SELECT * FROM productos WHERE paisdeorigen =?");
 //			codigomysql.setString(1, "Ana");
-			codigomysql.setInt(1, 34);
+			codigomysql.setString(1, "ITALIA");
 			ResultSet rs = codigomysql.executeQuery();
 			
 			while (rs.next()){

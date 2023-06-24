@@ -21,20 +21,15 @@ public class CargarCombos {
 		Connection accesoBD = conex1.dameConexion();
 		try {
 			Statement statement = accesoBD.createStatement();
+			Statement statement2 = accesoBD.createStatement();
 			rs = statement.executeQuery("SELECT DISTINCTROW seccion FROM productos");
+			rs2 = statement2.executeQuery("SELECT DISTINCTROW paisdeorigen FROM productos");
 			miProducto = new Productos();
-			
 			miProducto.setSeccion(rs.getString(1));
-			rs.close();
-
-			/////////////////////////////////////
-			
-			statement = accesoBD.createStatement();
-			rs2 = statement.executeQuery("SELECT DISTINCTROW paisedeorigen FROM productos");
-			miProducto = new Productos();
-			
 			miProducto.setPaisOrigen(rs2.getString(1));
+			rs.close();
 			rs2.close();
+			accesoBD.close();
 		} 
 		
 		catch (Exception e) {

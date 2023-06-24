@@ -11,13 +11,15 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
 import controlador.ControladorCargaCombo;
+import controlador.ControladorBotonEjecuta;
 
 public class MarcoAplicacion extends JFrame {
 
+	ControladorBotonEjecuta controladorBotonEjecuta = new ControladorBotonEjecuta(this);
 	public JComboBox<String> caja1;
 	public JComboBox<String> caja2;
 	JButton buscar;
-	JTextArea texto;
+	public JTextArea texto;
 	Connection miConexion;
 	String preparado = "SELECT * FROM productos WHERE seccion=?";
 	String preparado2 = "SELECT * FROM productos WHERE importado=?";
@@ -34,6 +36,7 @@ public class MarcoAplicacion extends JFrame {
 		caja2.addItem("Todos");
 		texto = new JTextArea();
 		buscar = new JButton("Buscar");
+		buscar.addActionListener(controladorBotonEjecuta);
 
 		menu.add(caja1);
 		menu.add(caja2);
@@ -42,6 +45,7 @@ public class MarcoAplicacion extends JFrame {
 		add(texto, BorderLayout.CENTER);
 		add(buscar, BorderLayout.SOUTH);
 		addWindowListener(new ControladorCargaCombo(this));
+		
 	}
-
+	
 }
