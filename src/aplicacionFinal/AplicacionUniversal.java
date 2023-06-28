@@ -3,19 +3,26 @@ package aplicacionFinal;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
 import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
-
-import java.sql.ResultSetMetaData;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class AplicacionUniversal {
 
@@ -43,6 +50,7 @@ class Lamina extends JPanel {
 
 	private JComboBox<String> comboTabla;
 	private JTextArea areaInformacion;
+	private FileReader entrada;
 
 	public Lamina() {
 		setLayout(new BorderLayout());
@@ -62,7 +70,7 @@ class Lamina extends JPanel {
 		add(areaInformacion, BorderLayout.CENTER);
 	}
 
-	public void sacaColumnas(String tabla) {
+	public void sacaColumnas(String tabla, deberia recivir un archivo de coneccion que es connectaBBDD(), reemplazar arriba y abajo) {
 		ArrayList<String> campos = new ArrayList<>();
 
 		String consulta = "SELECT * FROM " + tabla;
@@ -82,7 +90,7 @@ class Lamina extends JPanel {
 			while (rs.next()) {
 				for (String x : campos) {
 
-					areaInformacion.append(rs.getString(x) +" ");
+					areaInformacion.append(rs.getString(x) + " ");
 				}
 				areaInformacion.append("\n");
 			}
@@ -93,15 +101,40 @@ class Lamina extends JPanel {
 	}
 
 	public Connection conectarBBDD() {
+		Connection miConexion = null;
+		String[] datos = new String[4];
+		String path = System.getProperty("user.dir");
 
 		try {
-			Connection miConexion = DriverManager.getConnection(
-					"jdbc:mysql://sql7.freemysqlhosting.net:3306/sql7623827", "sql7623827", "akYVms4umE");
-			return miConexion;
-		} catch (Exception e) {
-			e.getMessage();
+			entrada = new FileReader(path + "/src/aplicacionFinal/patdh.txt");
+		} catch (IOException e1) {
+
+			JFileChooser chooser = new JFileChooser();
+			FileNameExtensionFilter filter = new FileNameExtensionFilter("config file", "txt");
+			chooser.setFileFilter(filter);
+			int returnVal = chooser.showOpenDialog(this);
+			if (returnVal == JFileChooser.APPROVE_OPTION) {
+				try {
+					entrada = new FileReader(chooser.getSelectedFile().getAbsolutePath());
+				} catch (FileNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
 		}
-		return null;
+		try {
+			BufferedReader buffer = new BufferedReader(entrada);
+			for (int i = 0; i <= 3; i++) {
+				datos[i] = buffer.readLine();
+			}
+
+			miConexion = DriverManager.getConnection(datos[0], datos[1], datos[2]);
+			entrada.close();
+		} catch (Exception e3) {
+		}
+
+		return miConexion;
+
 	}
 
 	public void obtenerTablas() {
