@@ -4,7 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedReader;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -19,7 +18,6 @@ import java.util.ArrayList;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -70,7 +68,8 @@ class Lamina extends JPanel {
 		add(areaInformacion, BorderLayout.CENTER);
 	}
 
-	public void sacaColumnas(String tabla, deberia recivir un archivo de coneccion que es connectaBBDD(), reemplazar arriba y abajo) {
+	public void sacaColumnas(String tabla) {// , deberia recivir un archivo de coneccion que es connectaBBDD(),
+											// reemplazar arriba y abajo) {
 		ArrayList<String> campos = new ArrayList<>();
 
 		String consulta = "SELECT * FROM " + tabla;
@@ -106,7 +105,7 @@ class Lamina extends JPanel {
 		String path = System.getProperty("user.dir");
 
 		try {
-			entrada = new FileReader(path + "/src/aplicacionFinal/patdh.txt");
+			entrada = new FileReader(path + "/src/aplicacionFinal/path.txt");
 		} catch (IOException e1) {
 
 			JFileChooser chooser = new JFileChooser();
